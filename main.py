@@ -45,13 +45,13 @@ class DCNN1D():
             self.sensor_number = int(config['DATASET']['sensor_number'])
 
             create_dir(self.SAVE_DIR)
-            with open(self.SAVE_DIR+'configuration.ini', 'w') as configfile:
+            with open(self.SAVE_DIR + 'configuration.ini', 'w') as configfile:
                 config.write(configfile)
             logger.info("Creating configuration done...")
 
             logger.info("Building dataset start...")
-            self.signals_train, self.labels_train,\
-            self.signals_val, self.labels_val,\
+            self.signals_train, self.labels_train, \
+            self.signals_val, self.labels_val, \
             self.signals_test, self.labels_test = self.preprocessing()
             pickle_save((self.signals_train, self.labels_train), self.SAVE_DIR + 'train_set.pkl')
             pickle_save((self.signals_val, self.labels_val), self.SAVE_DIR + 'val_set.pkl')
@@ -60,7 +60,7 @@ class DCNN1D():
         else:
             logger.info("Loading configuration and datasets start...")
             config = configparser.ConfigParser()
-            config.read(path_model+'configuration.ini')
+            config.read(path_model + 'configuration.ini')
             self.seq_length = int(config['DEFAULT']['seq_length'])
             self.n_channels = int(config['DEFAULT']['n_channels'])
             self.n_classes = int(config['DEFAULT']['n_classes'])
@@ -72,8 +72,8 @@ class DCNN1D():
             self.log_every = int(config['TRAIN']['log_every'])
             self.val_every = int(config['TRAIN']['val_every'])
 
-            self.filters = [ int(chunk) for chunk in config['CNN']['filters'].split(',') ]
-            self.kernels_size = [ int(chunk) for chunk in config['CNN']['kernels_size'].split(',') ]
+            self.filters = [int(chunk) for chunk in config['CNN']['filters'].split(',')]
+            self.kernels_size = [int(chunk) for chunk in config['CNN']['kernels_size'].split(',')]
 
             self.grad_clip = int(config['HIPERPARAMETERS']['grad_clip'])
             self.decay_rate = float(config['HIPERPARAMETERS']['decay_rate'])
@@ -84,11 +84,10 @@ class DCNN1D():
             self.name_acq = config['DATASET']['name_acq']
             self.sensor_number = int(config['DATASET']['sensor_number'])
             self.batch_size = 1
-            self.signals_train, self.labels_train = pickle_load(self.SAVE_DIR+'train_set.pkl')
+            self.signals_train, self.labels_train = pickle_load(self.SAVE_DIR + 'train_set.pkl')
             self.signals_val, self.labels_val = pickle_load(self.SAVE_DIR + 'val_set.pkl')
             self.signals_test, self.labels_test = pickle_load(self.SAVE_DIR + 'test_set.pkl')
             logger.info("Loading configuration and datasets done.")
-
 
         logger.info("Building model start...")
         # zona sub-funciones
@@ -178,7 +177,7 @@ class DCNN1D():
         subsignals = []
         sublabels = []
         while i + self.seq_length < total_len:
-            subsignals.append(signals[:,i:i + self.seq_length])
+            subsignals.append(signals[:, i:i + self.seq_length])
             sublabels.append(labels)
             i += self.seq_length
         x = np.array(subsignals)
