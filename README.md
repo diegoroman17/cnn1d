@@ -1,2 +1,2 @@
-# Explainable Deep Convolutional Neural Networks Applied to Signals Classification
-This repository contains the source code of the paper titled "Explainable Deep Convolutional Neural Networks Applied to Signals Classification".
+# Knowledge extraction from Deep Convolutional Neural Networks applied to signals classification
+This repository contains the source code of the paper titled "Knowledge extraction from Deep Convolutional Neural Networks applied to signals classification".
